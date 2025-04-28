@@ -8,3 +8,12 @@ wheels/
 
 # Virtual environments
 .venv
+
+# pygbag
+*.wav
+*.mp3
+*.pyc
+*.egg-info
+*-pygbag.???
+/build
+/dist
