@@ -253,37 +253,14 @@ class SpriteSheet:
         return image
 
 
-def render_player(idx: int, total_players: int, sprite, radius: int = 200) -> tuple:
-    """Returns all information needed to draw a player sprite for a specific player
-
-    Args:
-        idx (int): Player ID as integer
-        total_players (int): Count of all players
-        sprite (_type_): Sprite to render for the player
-        radius (int, optional): Radius for a circle to distribute players on. Defaults to 150.
-
-    Returns:
-        tuple: Tuple holding (sprite, coordinates) for rendering in PyGame via unpacking
-    """
-    return (
-        sprite,
-        (
-            SCREEN_WIDTH / 2
-            + radius * math.cos(math.tau * idx / total_players)
-            - sprite.get_width() / 2,
-            SCREEN_HEIGHT / 2
-            + radius * math.sin(math.tau * idx / total_players)
-            - sprite.get_height() / 2,
-        ),
-    )
-
-
 async def main():
     hurt_frames = SpriteSheet()
     sit_frames = SpriteSheet("sit.png")
 
     num_players = 5
     num_dice = 5
+
+    radius = 200
 
     playing = False
     exit_game = False
@@ -346,15 +323,35 @@ async def main():
         losers = p()
         if isinstance(losers, list):
             players_to_render = [
-                render_player(
-                    idx,
-                    len(p.player_ids),
+                (
                     hurt_frames.sprites[-1]
                     if idx in p.eliminated_players
                     else (
                         hurt_frames.sprites[2]
                         if idx in losers
                         else hurt_frames.sprites[0]
+                    ),
+                    (
+                        SCREEN_WIDTH / 2
+                        + radius * math.cos(math.tau * idx / len(p.player_ids))
+                        - hurt_frames.sprites[-1]
+                        if idx in p.eliminated_players
+                        else (
+                            hurt_frames.sprites[2]
+                            if idx in losers
+                            else hurt_frames.sprites[0]
+                        ).get_width()
+                        / 2,
+                        SCREEN_HEIGHT / 2
+                        + radius * math.sin(math.tau * idx / len(p.player_ids))
+                        - hurt_frames.sprites[-1]
+                        if idx in p.eliminated_players
+                        else (
+                            hurt_frames.sprites[2]
+                            if idx in losers
+                            else hurt_frames.sprites[0]
+                        ).get_height()
+                        / 2,
                     ),
                 )
                 for idx in p.player_ids
@@ -392,4 +389,4 @@ async def main():
     pygame.quit()
 
 
-asyncio.run(main)
+asyncio.run(main())
