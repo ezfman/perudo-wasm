@@ -84,7 +84,7 @@ class Perudo:
         self.bet = None
         self.uno = False
         self.eliminated_players = []
-        self.at_bat = self.player_ids[random.randint(0, len(self.players)-1)]
+        self.at_bat = self.player_ids[random.randint(0, len(self.players) - 1)]
 
     def __call__(self) -> Optional[int]:
         """Run a round of Perudo, returning losers or the ultimate winner
@@ -473,11 +473,14 @@ async def main():
         for sprite, player_coordinates in players_to_render:
             screen.blit(sprite, player_coordinates)
         screen.blit(text, (SCREEN_WIDTH / 2 - text.get_width() / 2, SCREEN_HEIGHT / 3))
-        screen.blit(sit_frames.sprites[4], (SCREEN_WIDTH / 2 - 32, SCREEN_HEIGHT / 2 - 32))
+        screen.blit(
+            sit_frames.sprites[4], (SCREEN_WIDTH / 2 - 32, SCREEN_HEIGHT / 2 - 32)
+        )
         pygame.display.update()
         await asyncio.sleep(0)
         frames -= 1
 
     pygame.quit()
+
 
 asyncio.run(main)
