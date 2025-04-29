@@ -261,16 +261,11 @@ async def main():
     radius = 200
 
     playing = False
-    exit_game = False
     while not playing:
         screen.blit(BG, (0, 0))
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit_game = True
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    exit_game = True
-                elif event.key == pygame.K_SPACE:
+                if event.key == pygame.K_SPACE:
                     playing = True
                 elif event.key == pygame.K_LEFT:
                     num_players = max(2, num_players - 1)
@@ -301,10 +296,6 @@ async def main():
         pygame.display.update()
         await asyncio.sleep(0)
 
-        if exit_game:
-            pygame.quit()
-            exit()
-
     p = Perudo(players=num_players, dice=num_dice)
 
     run = True
@@ -332,23 +323,23 @@ async def main():
                     (
                         SCREEN_WIDTH / 2
                         + radius * math.cos(math.tau * idx / len(p.player_ids))
-                        - hurt_frames.sprites[-1]
+                        - hurt_frames.sprites[-1].get_width()
                         if idx in p.eliminated_players
                         else (
-                            hurt_frames.sprites[2]
+                            hurt_frames.sprites[2].get_width()
                             if idx in losers
-                            else hurt_frames.sprites[0]
+                            else hurt_frames.sprites[0].get_width()
                         ).get_width()
                         / 2,
                         SCREEN_HEIGHT / 2
                         + radius * math.sin(math.tau * idx / len(p.player_ids))
-                        - hurt_frames.sprites[-1]
+                        - hurt_frames.sprites[-1].get_height()
                         if idx in p.eliminated_players
                         else (
-                            hurt_frames.sprites[2]
+                            hurt_frames.sprites[2].get_height()
                             if idx in losers
-                            else hurt_frames.sprites[0]
-                        ).get_height()
+                            else hurt_frames.sprites[0].get_height()
+                        )
                         / 2,
                     ),
                 )
@@ -357,8 +348,6 @@ async def main():
         elif isinstance(losers, int):
             winner = p.players[0].id
             run = False
-            # elif len(losers) == 1:
-            #     bowing = hurt_frames.total_sprites - 1
 
         for data in players_to_render:
             screen.blit(*data)
@@ -372,8 +361,6 @@ async def main():
     frames = 1000
     while frames:
         screen.blit(BG, (0, 0))
-        # image = pygame.transform.scale(pygame.image.load(os.path.join(BASE_PATH, image)).convert(), (SCR_W, SCR_H))
-
         for sprite, player_coordinates in players_to_render:
             screen.blit(sprite, player_coordinates)
         screen.blit(text, (SCREEN_WIDTH / 2 - text.get_width() / 2, SCREEN_HEIGHT / 3))
