@@ -198,22 +198,6 @@ class Perudo:
                 return False
 
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-
-pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Perudo // Liar's Dice")
-
-BG = pygame.transform.scale(
-    pygame.image.load(os.path.join("resources", "background.png")).convert(),
-    (SCREEN_WIDTH, SCREEN_HEIGHT),
-)
-
-TITLE_FONT = pygame.font.Font("resources/Daydream.ttf", 36)
-GAME_FONT = pygame.font.Font("resources/Daydream.ttf", 24)
-
-
 class SpriteSheet:
     def __init__(
         self,
@@ -254,6 +238,20 @@ class SpriteSheet:
 
 
 async def main():
+    SCREEN_WIDTH = 800
+    SCREEN_HEIGHT = 600
+
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption("Perudo // Liar's Dice")
+
+    BG = pygame.transform.scale(
+        pygame.image.load(os.path.join("resources", "background.png")).convert(),
+        (SCREEN_WIDTH, SCREEN_HEIGHT),
+    )
+
+    TITLE_FONT = pygame.font.Font("resources/Daydream.ttf", 36)
+    GAME_FONT = pygame.font.Font("resources/Daydream.ttf", 24)
     hurt_frames = SpriteSheet()
     sit_frames = SpriteSheet("sit.png")
 
