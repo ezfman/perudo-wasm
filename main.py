@@ -203,7 +203,7 @@ class SpriteSheet:
         self,
         sprite_sheet: str = "hurt.png",
         pixels: tuple[int, int] = (64, 64),
-        sprite_dir: str = "resources/sprites",
+        sprite_dir: str = "/resources/sprites",
     ):
         assert sprite_sheet in os.listdir(sprite_dir)
         sprite_sheet = os.path.join(sprite_dir, sprite_sheet)
@@ -246,12 +246,12 @@ async def main():
     pygame.display.set_caption("Perudo // Liar's Dice")
 
     BG = pygame.transform.scale(
-        pygame.image.load(os.path.join("resources", "background.png")).convert(),
+        pygame.image.load(os.path.join("/resources", "background.png")).convert(),
         (SCREEN_WIDTH, SCREEN_HEIGHT),
     )
 
-    TITLE_FONT = pygame.font.Font("resources/Daydream.ttf", 36)
-    GAME_FONT = pygame.font.Font("resources/Daydream.ttf", 24)
+    TITLE_FONT = pygame.font.Font("/resources/Daydream.ttf", 36)
+    GAME_FONT = pygame.font.Font("/resources/Daydream.ttf", 24)
     hurt_frames = SpriteSheet()
     sit_frames = SpriteSheet("sit.png")
 
